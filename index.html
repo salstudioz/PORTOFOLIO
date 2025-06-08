@@ -1,0 +1,2348 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maa's Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --dark-blue: #2F4157;
+            --medium-blue: #577C8E;
+            --light-blue: #C7D9E5;
+            --cream: #F4EFEB;
+            --white: #FFFFFF;
+            --gold: #FFD700;
+            --parchment: #F5F1E6;
+            --pixel-font: 'Press Start 2P', cursive;
+            --modern-font: 'Orbitron', sans-serif;
+        }
+
+        body {
+            font-family: var(--modern-font);
+            background: linear-gradient(135deg, var(--dark-blue) 0%, var(--medium-blue) 100%);
+            color: var(--white);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Loading Screen */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--dark-blue);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+        
+        .loading-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+        
+        .loading-logo {
+            font-family: var(--pixel-font);
+            font-size: 2rem;
+            color: var(--light-blue);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            margin-bottom: 2rem;
+        }
+        
+        .loading-bar {
+            width: 300px;
+            height: 10px;
+            background: rgba(199, 217, 229, 0.2);
+            border-radius: 5px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .loading-progress {
+            position: absolute;
+            height: 100%;
+            width: 0%;
+            background: var(--light-blue);
+            animation: loading 2.5s ease-in-out forwards;
+        }
+        
+        @keyframes loading {
+            0% { width: 0%; }
+            20% { width: 30%; }
+            40% { width: 55%; }
+            60% { width: 75%; }
+            80% { width: 90%; }
+            100% { width: 100%; }
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(47, 65, 87, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-family: var(--pixel-font);
+            font-size: 1rem;
+            color: var(--light-blue);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--light-blue);
+            transform: translateY(-2px);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background: var(--light-blue);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 4px;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: var(--white);
+            transition: all 0.3s ease;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            z-index: 10;
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 10;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero h1 {
+            font-family: var(--pixel-font);
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.7);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            color: var(--light-blue);
+            animation: fadeInUp 3s ease-out;
+        }
+
+        .cta-button {
+            background: var(--medium-blue);
+            color: var(--white);
+            border: 2px solid var(--light-blue);
+            padding: 0.8rem 1.8rem;
+            border-radius: 25px;
+            font-family: var(--modern-font);
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .cta-button:hover {
+            background: var(--light-blue);
+            color: var(--dark-blue);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        /* 3D Slider */
+        .banner {
+            position: relative;
+            height: 300px;
+            margin: 2rem 0;
+            perspective: 1000px;
+        }
+
+        .slider-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            transform: perspective(1000px);
+            transition: transform 0.5s ease-out;
+            z-index: 100;
+            margin: 0 auto;
+        }
+
+        .slider-item {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 150px;
+            height: 200px;
+            background: linear-gradient(45deg, var(--medium-blue), var(--light-blue));
+            border: 2px solid var(--white);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--pixel-font);
+            font-size: 1rem;
+            text-align: center;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            transform: translate(-50%, -50%) rotateY(calc(var(--i) * 60deg)) translateZ(300px);
+            transition: all 0.5s ease;
+            padding: 0px;
+            word-wrap: break-word;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .slider-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 5%;
+            transition: transform 0.5s ease;
+        }
+
+        .slider-item:hover img {
+            transform: scale(1.1);
+        }
+
+        /* Sections */
+        .section {
+            min-height: 100vh;
+            padding: 5rem 2rem;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-family: var(--pixel-font);
+            font-size: 2rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--light-blue);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            animation: slideInFromLeft 0.8s ease-out;
+        }
+
+        /* About Me Section */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .about-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            animation: slideInFromLeft 1s ease-out 0.3s both;
+        }
+
+        .about-visual {
+            position: relative;
+            height: 400px;
+            display: flex;
+            justify-content: left;
+            left: 100px;
+            align-items: center;
+        }
+        
+
+        .id-card {
+            width: 240px;
+            height: 300px;
+            background: url(images/CARDS/id.png);
+            background-size: cover;     
+            background-position: center;  
+            background-repeat: no-repeat;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            position: relative;
+            cursor: grab;
+            transition: transform 0.3s ease;
+            color: var(--primary-blue);
+            padding: 20px;
+            text-align: center;
+        }
+
+        .id-card:active {
+            cursor: grabbing;
+        }
+
+        .id-card:hover {
+            transform: rotate(5deg) scale(1.05);
+        }
+
+        .lanyard {
+            position: absolute;
+            top: -800px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 15px;
+            height: 800px;
+            background: var(--light-blue);
+            border-radius: 8px 8px 0 0;
+            z-index: 10;
+            box-shadow: 0 3px 5px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .saxotl {
+            position: absolute;
+            left: 50px;
+            top: 500px;
+            width: 150px;
+            height: 169px;
+            background-image: url('images/maaxolotl.png');
+            background-size: cover;     
+            background-position: center;  
+            background-repeat: no-repeat;
+            border-radius: 10%;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        /* Experience Section */
+        .experience-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+            gap: 1rem;
+        }
+
+        .tab-btn {
+            background: var(--medium-blue);
+            color: var(--white);
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: var(--modern-font);
+            font-size: 1rem;
+        }
+
+        .tab-btn.active {
+            background: var(--light-blue);
+            color: var(--dark-blue);
+            transform: scale(1.05);
+        }
+
+        .experience-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, 3fr(300px, 1fr));
+            gap: 2rem;
+            max-height: 600px;
+            overflow-y: auto;
+            padding: 10px;
+            scrollbar-width: thin;
+            scrollbar-color: var(--light-blue) transparent;
+        }
+
+        .experience-grid::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .experience-grid::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .experience-grid::-webkit-scrollbar-thumb {
+            background-color: var(--light-blue);
+            border-radius: 10px;
+        }
+
+        .experience-card {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .experience-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--light-blue);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+
+        .experience-card h3 {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.9rem;
+            margin-bottom: 0.8rem;
+            color: var(--light-blue);
+        }
+
+        .experience-card .position {
+            font-weight: bold;
+            color: var(--white);
+            text-shadow: var(--gold);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .experience-card .period {
+            color: var(--parchment);
+            margin-bottom: 1rem;
+            font-style: italic;
+        }
+
+        .experience-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+        }
+
+        .experience-details.active {
+            max-height: 500px;
+        }
+
+        .experience-details ul {
+            padding-left: 1.5rem;
+        }
+
+        .experience-details li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Tools Section */
+    .tools-container {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(150px, 1fr));
+    max-width: 1000px;
+    margin: 0 auto;
+    gap: 30px;
+    justify-content: center;
+}
+
+
+        .tool-card {
+            width: 150px;
+            height: 150px;
+            background: rgba(47, 65, 87, 0.7);
+            border: 2px solid var(--white);
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .tool-card:hover {
+            transform: translateY(-10px) rotate(5deg);
+            box-shadow: 0 12px 30px rgba(212, 175, 55, 0.4);
+        }
+
+        .tool-icon {
+            font-size: 3rem;
+            color: var(--gold);
+            margin-bottom: 15px;
+            width: 40px;
+        }
+
+        .tool-icon img  {
+            object-fit: contain;
+            width: 100%;
+        }
+
+        .tool-name {
+            color: var(--parchment);
+            font-weight: 500;
+            text-align: center;
+        }
+
+        /* Projects Section */
+        .project-categories {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .category-btn {
+            background: var(--medium-blue);
+            color: var(--white);
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: var(--modern-font);
+        }
+
+        .category-btn.active {
+            background: var(--light-blue);
+            color: var(--dark-blue);
+            transform: scale(1.1);
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            background: rgba(47, 65, 87, 0.8);
+            border-radius: 15px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            aspect-ratio: 4/5;
+            position: relative;
+            animation: float 6s ease-in-out infinite;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .project-card:nth-child(2n) {
+            animation-delay: 1s;
+        }
+
+        .project-card:nth-child(3n) {
+            animation-delay: 2s;
+        }
+
+        .project-card:hover {
+            transform: translateY(-15px) scale(1.03);
+            box-shadow: 0 20px 40px rgba(199, 217, 229, 0.4);
+            animation: glowProject 1.5s infinite alternate;
+            z-index: 10;
+        }
+
+        .project-image {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, var(--medium-blue), var(--light-blue));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--pixel-font);
+            font-size: 0.8rem;
+        }
+
+        .project-info {
+            position: absolute;
+            bottom: -100%;
+            left: 0;
+            width: 100%;
+            background: rgba(47, 65, 87, 0.9);
+            padding: 1rem;
+            transition: bottom 0.5s ease;
+            backdrop-filter: blur(5px);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .project-card:hover .project-info {
+            bottom: 0;
+        }
+
+        .project-info h3 {
+            font-family: var(--modern-font);
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--light-blue);
+        }
+
+        .project-info p {
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+        }
+
+        .project-info a {
+            display: inline-block;
+            background: var(--medium-blue);
+            color: var(--white);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 0.8rem;
+            text-align: center;
+        }
+
+        .project-info a:hover {
+            background: var(--light-blue);
+            color: var(--dark-blue);
+        }
+
+        /* Certificates Section */
+        .certificates-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .certificate-card {
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            aspect-ratio: 4/3;
+            position: relative;
+        }
+
+        .certificate-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+        }
+
+        .certificate-image {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, var(--medium-blue), var(--light-blue));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--pixel-font);
+            font-size: 0.8rem;
+        }
+
+        .certificate-image img {
+            object-fit: contain;
+            object-position: center;
+            width: 100%;
+        }
+
+        .certificate-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(47, 65, 87, 0.8);
+            padding: 1rem;
+            text-align: center;
+        }
+
+        /* Contact Section */
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .contact-info {
+            padding: 2rem;
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .contact-form {
+            padding: 2rem;
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .contact-info h3, .contact-form h3 {
+            font-family: var(--pixel-font);
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            color: var(--light-blue);
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-icon {
+            width: 30px;
+            height: 30px;
+            background: var(--medium-blue);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .social-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--medium-blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .social-btn:hover {
+            background: var(--light-blue);
+            color: var(--dark-blue);
+            transform: translateY(-5px);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border-radius: 8px;
+            border: 1px solid var(--light-blue);
+            background: rgba(255,255,255,0.1);
+            color: var(--white);
+            font-family: var(--modern-font);
+        }
+
+        .form-group textarea {
+            height: 150px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            background: var(--medium-blue);
+            color: var(--white);
+            border: 2px solid var(--light-blue);
+            padding: 0.8rem 2rem;
+            border-radius: 25px;
+            font-family: var(--modern-font);
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .submit-btn:hover {
+            background: var(--light-blue);
+            color: var(--dark-blue);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: var(--dark-blue);
+            border-radius: 15px;
+            padding: 2rem;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            color: var(--white);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Music Player */
+        .music-player {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 1500;
+        }
+
+        .music-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--medium-blue);
+            border: 2px solid var(--light-blue);
+            color: var(--white);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            animation: pulse 2s infinite;
+        }
+
+        .music-btn:hover {
+            transform: scale(1.1);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInFromLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 3px 3px 6px rgba(0,0,0,0.7);
+            }
+            to {
+                text-shadow: 3px 3px 20px rgba(199, 217, 229, 0.9);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        @keyframes glowProject {
+            0% {
+                box-shadow: 0 0 15px rgba(199, 217, 229, 0.6);
+            }
+            100% {
+                box-shadow: 0 0 30px rgba(199, 217, 229, 0.9);
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(87, 124, 142, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(87, 124, 142, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(87, 124, 142, 0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-15px); }
+            60% { transform: translateY(-10px); }
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .contact-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background: var(--dark-blue);
+                flex-direction: column;
+                align-items: center;
+                justify-content: start;
+                padding-top: 2rem;
+                transition: left 0.3s ease;
+            }
+
+            .nav-links.active {
+                left: 0;
+            }
+
+            .hero h1 {
+                font-size: 1.5rem;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+            
+            .slider-item {
+                width: 120px;
+                height: 160px;
+                font-size: 0.8rem;
+            }
+            
+            .id-card {
+                transform-origin: center;
+            }
+
+            .about-visual {
+            position: relative;
+            height: 400px;
+            display: flex;
+            justify-content: left;
+            left: 0;
+            align-items: center;
+            }
+
+            .saxotl {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            top: 390px;
+            width: 150px;
+            height: 169px;
+            background-image: url('images/maaxolotl.png');
+            background-size: cover;     
+            background-position: center;  
+            background-repeat: no-repeat;
+            border-radius: 10%;
+            animation: float 3s ease-in-out infinite;
+            }
+
+            .experience-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Tambahan style untuk section Maaxolotl */
+        #maaxolotl {
+            background: linear-gradient(135deg, #2a3a4d 0%, #4a6b80 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            padding: 4rem 2rem;
+        }
+        
+        .maaxolotl-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 4rem;
+        }
+        
+        .maaxolotl-image {
+            position: relative;
+            width: 300px;
+            height: 338px;
+            flex-shrink: 0;
+            animation: float 4s ease-in-out infinite;
+            filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.4));
+        }
+        
+        .maaxolotl-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        
+        .maaxolotl-content {
+            max-width: 600px;
+            background: rgba(47, 65, 87, 0.7);
+            border-radius: 20px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+            border: 2px solid var(--light-blue);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .maaxolotl-title {
+            font-family: var(--pixel-font);
+            font-size: 2.5rem;
+            color: var(--light-blue);
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.7);
+            margin-bottom: 1.5rem;
+            text-align: center;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        
+        .maaxolotl-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--cream);
+        }
+        
+        .maaxolotl-details {
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            background: rgba(199, 217, 229, 0.1);
+            border-radius: 15px;
+            border-left: 4px solid var(--light-blue);
+        }
+        
+        .maaxolotl-details p {
+            margin-bottom: 0.8rem;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+        
+        .maaxolotl-details p:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: var(--gold);
+            font-size: 1.2rem;
+        }
+        
+        /* Animasi khusus untuk teks Maaxolotl */
+        .typing-animation {
+            overflow: hidden;
+            white-space: normal;
+            animation: typing 3s steps(40, end);
+        }
+        
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+        
+        /* Animasi bubble */
+        .bubble {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(199, 217, 229, 0.2);
+            animation: floatBubble 10s infinite linear;
+            z-index: -1;
+        }
+        
+        @keyframes floatBubble {
+            0% {
+                transform: translateY(0) translateX(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.5;
+            }
+            90% {
+                opacity: 0.3;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        #draggable-maaxolotl {
+            position: absolute;
+            bottom: 40px;
+            left: 40px;
+            cursor: pointer;
+            z-index: 10;
+            transition: transform 0.2s;
+            touch-action: none;
+        }
+
+        #draggable-maaxolotl:active {
+        cursor: grabbing;
+        }
+
+
+    </style>
+</head>
+<body>
+    
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-logo">MAA's PORTFOLIO</div>
+        <div class="loading-bar">
+            <div class="loading-progress"></div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">MAA's PORTFOLIO</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#tools">Tools</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#certificates">Certificates</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>CURRENT PROJECT</h1>
+            <p>PORTOFOLIO</p>
+
+            
+            <div class="banner">
+                <div class="slider-container" id="sliderContainer">
+                    <div class="slider-item" style="--i: 0;" onclick="scrollToSection('projects')">
+                        <img src="images/CARDS/diesnat pp.png" alt="Project 1" class="w-full h-full object-cover" />
+                    </div>
+                    <div class="slider-item" style="--i: 1;" onclick="scrollToSection('projects')">
+                        <img src="images/CARDS/stech announ.png" alt="Project 2" class="w-full h-full object-cover" />
+                    </div>
+                    <div class="slider-item" style="--i: 2;" onclick="scrollToSection('projects')">
+                        <img src="images/CARDS/maaxo.png" alt="Project 3" class="w-full h-full object-cover" />
+                    </div>
+                    <div class="slider-item" style="--i: 3;" onclick="scrollToSection('projects')">
+                        <img src="images/CARDS/twibbon upgreding.png" alt="Project 4" class="w-full h-full object-cover" />
+                    </div>
+                    <div class="slider-item" style="--i: 4;" onclick="scrollToSection('projects')">
+                        <img src="images/CARDS/ppt hmif.png" alt="Project 5" class="w-full h-full object-cover" />
+                    </div>
+                    <div class="slider-item" style="--i: 5;" onclick="scrollToSection('projects')">
+                        <img src="images/CARDS/ssdc logo.png" alt="Project 6" class="w-full h-full object-cover" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Me Section -->
+    <section id="about" class="section">
+        <div class="container">
+            <h2 class="section-title">ABOUT ME</h2>
+            <div class="about-content">
+                <div class="about-visual">
+                    <div class="id-card" id="id-card">
+                        <div class="lanyard"></div>
+                    </div>  
+                </div>
+                <div class="saxotl"></div>
+                <div class="about-text">
+                    <p>Seorang mahasiswa Informatika dengan passion dalam dunia desain visual dan multimedia. Memiliki pengalaman dalam organisasi dan kepanitiaan yang telah mengasah kemampuan leadership dan teamwork.</p>
+                    <br>
+                    <p>Spesialisasi dalam graphic design dan editing video dengan menguasai berbagai tools modern seperti Figma, Ibis Paint, Canva, dan lainnya.</p>
+                    <br>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Maaxolotl Section -->
+    <section id="maaxolotl" class="section">
+        <div class="maaxolotl-container">
+            <div class="maaxolotl-image" id="draggable-maaxolotl">
+                <img src="images/CARDS/maaxolotl.png" alt="Maaxolotl">
+            </div>
+            
+            <div class="maaxolotl-content">
+                <h2 class="maaxolotl-title">MAAXOLOTL</h2>
+                <div class="maaxolotl-text">
+                    <p class="typing-animation">Hai aku Maaxolotl! Aku adalah Original Character representasi dari Salma yang diciptain bulan Mei 2025!</p>
+                    <p class="typing-animation" style="animation-delay: 0.5s">Aku di sketsa di Ibis Paint terus di eksekusi di Figma!</p>
+                    
+                    <div class="maaxolotl-details">
+                        <p class="typing-animation" style="animation-delay: 1s">Nama : Maaxolotl</p>
+                        <p class="typing-animation" style="animation-delay: 1.5s">Panggilan : Maxo</p>
+                        <p class="typing-animation" style="animation-delay: 2s">Panggilan Sayang : Masyu</p>
+                        <p class="typing-animation" style="animation-delay: 2.5s">Atribut : Headphone hitam, Dasi Biru (ala-ala Ravenclaw)</p>
+                        <p class="typing-animation" style="animation-delay: 3s">Badan : Biru</p>
+                        <p class="typing-animation" style="animation-delay: 3.5s">Insang : Pink</p>
+                        <p class="typing-animation" style="animation-delay: 4s">TTL : Figma, 19 Mei 2025</p>
+                        <p class="typing-animation" style="animation-delay: 4.5s">Hobi : Nyempil di desain Maa</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Experience Section -->
+    <section id="experience" class="section">
+        <div class="container">
+            <h2 class="section-title">EXPERIENCE</h2>
+            <div class="experience-tabs">
+                <button class="tab-btn active" data-tab="organization">Organisasi</button>
+                <button class="tab-btn" data-tab="committees">Kepanitiaan</button>
+            </div>
+            
+            <div class="experience-grid" id="experienceGrid">
+                <!-- Experience cards will be loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Tools Section -->
+    <section id="tools" class="section">
+        <div class="container">
+            <h2 class="section-title">TOOLS & SKILLS</h2>
+            <div class="tools-container">
+                <div class="tool-card">
+                    <img src="images/logo/figma.png" alt="Figma Icon" class="tool-icon" />
+                    <div class="tool-name">Figma</div>
+                    <div class=" ">UI/UX</div>
+                </div>
+                <div class="tool-card">
+                    <img src="images/logo/canva.png" alt="canva Icon" class="tool-icon" />
+                    <div class="tool-name">Canva</div>
+                    <div class=" ">Design</div>
+                </div>
+                <div class="tool-card">
+                    <img src="images/logo/ibis.png" alt="ibis Icon" class="tool-icon" />
+                    <div class="tool-name">Ibis Paint</div>
+                    <div class=" ">Sketch</div>
+                </div>
+                <div class="tool-card">
+                    <img src="images/logo/ps.png" alt="pc Icon" class="tool-icon" />
+                    <div class="tool-name">Photoshop</div>
+                    <div class=" ">Editing</div>
+                </div>
+                <div class="tool-card">
+                    <img src="images/logo/capcut.png" alt="cc Icon" class="tool-icon" />
+                    <div class="tool-name">CapCut</div>
+                    <div class=" ">Editing</div>
+                </div>
+                <div class="tool-card">
+                    <img src="images/logo/davinci.png" alt="davinci Icon" class="tool-icon" />
+                    <div class="tool-name">DaVinci</div>
+                    <div class=" ">Color</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="section">
+        <div class="container">
+            <h2 class="section-title">PROJECTS</h2>
+            <div class="project-categories">
+                <button class="category-btn active" data-category="design">Graphic Design</button>
+                <button class="category-btn" data-category="photography">Photography</button>
+                <button class="category-btn" data-category="videography">Videography</button>
+            </div>
+            <div class="projects-grid" id="projectsGrid">
+                <!-- Projects will be loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Certificates Section -->
+    <section id="certificates" class="section">
+        <div class="container">
+            <h2 class="section-title">CERTIFICATES</h2>
+            <div class="certificates-grid">
+                <div class="certificate-card">
+                    <div class="certificate-image">ROHIS PERIODE 1</div>
+                    <div class="certificate-info">
+                        <h3>Rohis Periode 1</h3>
+                        <p>Sertifikat Staf Divisi Syiar</p>
+                    </div>
+                </div>
+                <div class="certificate-card">
+                    <div class="certificate-image">ROHIS PERIODE 2</div>
+                    <div class="certificate-info">
+                        <h3>Rohis Periode 2</h3>
+                        <p>Sertifikat Ketua Divisi Syiar</p>
+                    </div>
+                </div>
+                <div class="certificate-card">
+                    <div class="certificate-image">
+                        <img src="images/PDD STECH.jpg" alt="S-Tech Certificate" />
+                    </div>
+                    <div class="certificate-info">
+                        <h3>S-Tech</h3>
+                        <p>Sertifikat Kepanitiaan</p>
+                    </div>
+                </div>                
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section">
+        <div class="container">
+            <h2 class="section-title">CONTACT ME</h2>
+            <div class="contact-container">
+                <div class="contact-info">
+                    <h3>Get In Touch</h3>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fa fa-envelope"></i>
+                        </div>
+                        <div>
+                            <h4>Email</h4>
+                            <p>salmafaizatuljannah@gmail.com</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div>
+                            <h4>Phone</h4>
+                            <p>+62 812 9097 7985</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fa fa-map-pin"></i>
+                        </div>                        <div>
+                            <h4>Location</h4>
+                            <p>Temanggung, Indonesia</p>
+                        </div>
+                    </div>
+                    <div class="social-links">
+                        <a href="https://www.instagram.com/el.zur.al_/" class="social-btn">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://github.com/salstudioz" class="social-btn">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="https://www.tiktok.com/@elzur.al" class="social-btn">
+                            <i class="fa-brands fa-tiktok"></i>
+                        </a>
+                        <a href="https://www.youtube.com/@LUCÍKUUGAMI" class="social-btn">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="contact-form">
+                    <h3>Send a Message</h3>
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" id="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="subject">Subject</label>
+                            <input type="text" id="subject" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" required></textarea>
+                        </div>
+                        <button type="submit" class="submit-btn">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal -->
+    <div class="modal" id="projectModal">
+        <div class="modal-content">
+            <button class="close-modal">&times;</button>
+            <div id="modalContent">
+                <!-- Modal content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Music Player -->
+    <div class="music-player">
+        <button class="music-btn" id="musicBtn">🎵</button>
+        <audio id="bgMusic" loop>
+            <source src="TXT - 그날이 오면 (When The Day Comes).mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+    </div>
+
+    <script>
+        // Loading Screen
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                const loadingScreen = document.getElementById('loadingScreen');
+                loadingScreen.classList.add('hidden');
+                
+                setTimeout(function() {
+                    loadingScreen.style.display = 'none';
+                }, 800);
+            }, 2500);
+        });
+
+        // 3D Slider Animation
+        const sliderContainer = document.getElementById('sliderContainer');
+        let sliderAngle = 0;
+        let sliderPlaying = true;
+        const rotationSpeed = 0.3;
+    
+        function updateSliderRotation() {
+            sliderContainer.style.transform = `perspective(1000px) rotateY(${sliderAngle}deg)`;
+        }
+    
+        function animateSlider() {
+            if (sliderPlaying) {
+                sliderAngle += rotationSpeed;
+                updateSliderRotation();
+            }
+            requestAnimationFrame(animateSlider);
+        }
+    
+        animateSlider();
+    
+        // Navigation
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+    
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            hamburger.classList.toggle('active');
+        });
+    
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+                navLinks.classList.remove('active');
+                hamburger.classList.remove('active');
+            });
+        });
+        
+        function scrollToSection(sectionId) {
+            const target = document.getElementById(sectionId);
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        }
+    
+        // Section animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+    
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+    
+        document.querySelectorAll('.section').forEach(section => {
+            observer.observe(section);
+        });
+    
+        // Experience data
+        const experienceData = {
+    organization: [
+        {
+            title: "HMIF Unsoed",
+            position: "Staf Divisi Medkominfo",
+            period: "2025-Sekarang",
+            responsibilities: [
+                "Tim Design dan Konten",
+                "Agenda Kerja Informatics Talks (Podcast)"
+            ]
+        },
+        {
+            title: "Rohis SMA",
+            position: "Ketua Divisi Syiar",
+            period: "2022-2023",
+            responsibilities: [
+                "Mengelola Media Sosial",
+                "Live Report Kegiatan Rohis",
+                "Membuat Desain Pamflet",
+                "Dokumentasi Kegiatan Rohis",
+                "Membagi job tiap anggota"
+            ]
+        },
+        {
+            title: "Rohis SMA",
+            position: "Staf Divisi Syiar",
+            period: "2021-2022",
+            responsibilities: [
+                "Mengelola Media Sosial",
+                "Live Report Kegiatan Rohis",
+                "Membuat Desain Pamflet",
+                "Dokumentasi Kegiatan Rohis"
+            ]
+        },
+        {
+            title: "OSIS SMP",
+            position: "Kabid Humas dan Media (Humed)",
+            period: "2019-2020",
+            responsibilities: [
+                "Membuat Artikel",
+                "Membuat Mading"
+            ]
+        }
+    ],
+    committees: [
+        {
+            title: "Musyawarah Anggota",
+            position: "Staf PDD",
+            period: "2024",
+            responsibilities: [
+                "Dokumentasi Live Report"
+            ]
+        },
+        {
+            title: "Soedirman Technophoria",
+            position: "Staf PDD",
+            period: "2024",
+            responsibilities: [
+                "Design Live Report",
+                "Design Kupon Undian",
+                "Dokumentasi Live Report"
+            ]
+        },
+
+        {
+            title: "Mabit",
+            position: "Koor Dekdok",
+            period: "2023",
+            responsibilities: [
+                "Design Pamflet",
+                "Dokumentasi Kegiatan"
+            ]
+        },
+        {
+            title: "SIC",
+            position: "Koor Dekdok",
+            period: "2023",
+            responsibilities: [
+                "Design Pamflet",
+                "Dokumentasi Kegiatan"
+            ]
+        },
+        {
+            title: "Tabligh Akbar",
+            position: "Staf Dekdok",
+            period: "2023",
+            responsibilities: [
+                "Design Pamflet",
+                "Dokumentasi Kegiatan"
+            ]
+        },
+        {
+            title: "Pesantren Kilat",
+            position: "Staf Dekdok",
+            period: "2022",
+            responsibilities: [
+                "Dokumentasi Kegiatan"
+            ]
+        },
+        {
+            title: "SIC",
+            position: "Staf Dekdok",
+            period: "2022",
+            responsibilities: [
+                "Dokumentasi Kegiatan"
+            ]
+        }
+    ]
+};
+
+
+        // Load experiences
+        function loadExperiences(category) {
+            const experienceGrid = document.getElementById('experienceGrid');
+            const experiences = experienceData[category];
+            
+            experienceGrid.innerHTML = '';
+            experiences.forEach((exp, index) => {
+                const expCard = document.createElement('div');
+                expCard.className = 'experience-card';
+                
+                expCard.innerHTML = `
+                    <h3>${exp.title}</h3>
+                    <div class="position">${exp.position}</div>
+                    <div class="period">${exp.period}</div>
+                    <div class="experience-details">
+                        <ul>
+                            ${exp.responsibilities.map(resp => `<li>${resp}</li>`).join('')}
+                        </ul>
+                    </div>
+                `;
+                
+                expCard.addEventListener('click', function() {
+                    const details = this.querySelector('.experience-details');
+                    details.classList.toggle('active');
+                });
+                
+                experienceGrid.appendChild(expCard);
+            });
+        }
+
+        // Experience tabs
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                loadExperiences(this.dataset.tab);
+            });
+        });
+
+        // Load initial experiences
+        loadExperiences('organization');
+    
+        // ID Card Interaction
+        const idCard = document.getElementById('id-card');
+        let isDragging = false;
+        let startX, startY, initialX, initialY;
+        let currentX = 0, currentY = 0;
+
+        // Mouse events
+        idCard.addEventListener('mousedown', startDrag);
+
+        // Touch events
+        idCard.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            startDrag(e.touches[0]);
+        });
+
+        function startDrag(e) {
+            isDragging = true;
+            startX = e.clientX - currentX;
+            startY = e.clientY - currentY;
+            
+            // Animate lanyard when dragging starts
+            const lanyard = document.querySelector('.lanyard');
+            lanyard.style.transform = 'translateX(-50%) rotate(10deg)';
+            
+            document.addEventListener('mousemove', drag);
+            document.addEventListener('touchmove', touchDrag);
+            document.addEventListener('mouseup', stopDrag);
+            document.addEventListener('touchend', stopDrag);
+        }
+
+        function drag(e) {
+            if (!isDragging) return;
+            e.preventDefault();
+            
+            currentX = e.clientX - startX;
+            currentY = e.clientY - startY;
+            
+            idCard.style.transform = `translate(${currentX}px, ${currentY}px) rotate(${currentX * 0.1}deg)`;
+        }
+
+        function touchDrag(e) {
+            if (!isDragging) return;
+            e.preventDefault();
+            
+            const touch = e.touches[0];
+            currentX = touch.clientX - startX;
+            currentY = touch.clientY - startY;
+            
+            idCard.style.transform = `translate(${currentX}px, ${currentY}px) rotate(${currentX * 0.1}deg)`;
+        }
+
+        function stopDrag() {
+            isDragging = false;
+            
+            // Reset lanyard animation
+            const lanyard = document.querySelector('.lanyard');
+            lanyard.style.transform = 'translateX(-50%)';
+            
+            document.removeEventListener('mousemove', drag);
+            document.removeEventListener('touchmove', touchDrag);
+            document.removeEventListener('mouseup', stopDrag);
+            document.removeEventListener('touchend', stopDrag);
+            
+            // Bounce back animation
+            setTimeout(() => {
+                currentX = 0;
+                currentY = 0;
+                idCard.style.transition = 'transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
+                idCard.style.transform = 'translate(0px, 0px) rotate(0deg)';
+                
+                setTimeout(() => {
+                    idCard.style.transition = 'all 0.3s ease';
+                }, 500);
+            }, 100);
+        }
+
+        // Lanyard hover effect
+        idCard.addEventListener('mouseenter', () => {
+            const lanyard = document.querySelector('.lanyard');
+            lanyard.style.transform = 'translateX(-50%) rotate(5deg)';
+        });
+
+        idCard.addEventListener('mouseleave', () => {
+            const lanyard = document.querySelector('.lanyard');
+            lanyard.style.transform = 'translateX(-50%)';
+        });
+
+
+        // Projects data
+        const projectsData = {
+            design: [
+                { 
+                    title: 'ORIGINAL CHARACTER', 
+                    description: 'Design original character dengan bentuk utama axolotl dan aksesoris.', 
+                    image: 'images/CARDS/maaxo.png',
+                    drive: '#' 
+                },
+                { 
+                    title: 'LOGO SSDC', 
+                    description: 'Design Logo SSDC HMIF 2025.', 
+                    image: 'images/CARDS/SSDC Logo.png',
+                    drive: '#' 
+                },
+                { 
+                    title: 'PPT HIMPUNAN', 
+                    description: 'PPT HMIF Kabinet Arditasena.', 
+                    image: 'images/CARDS/ppt hmif.png',
+                    drive: '#' 
+                },
+                { 
+                    title: 'PAMFLET OPREC', 
+                    description: 'Design Pamflet Open Recruitment SSDC.', 
+                    image: 'images/CARDS/ssdc oprec.png',
+                    drive: '#' 
+                },
+                { 
+                    title: 'TWIBBON UPGRADING', 
+                    description: 'Twibbon untuk kegiatan Upgrading HMIF 2025.', 
+                    image: 'images/CARDS/twibbon upgreding.png',
+                    drive: '#' 
+                },
+                { 
+                    title: 'KUPON UNDIAN', 
+                    description: 'Design Kupon Undian S-TECH 2024.', 
+                    image: 'images/CARDS/stech kupon.png',
+                    drive: '#' 
+                },
+                { 
+                    title: 'PPT JJK', 
+                    description: 'Design template ppt inspired by Jujutsu Kaisen.', 
+                    image: 'images/CARDS/ppt jjk.png',
+                    drive: '#' 
+                },
+                { 
+                    title: 'LIVE REPORT', 
+                    description: 'Design Live Report S-Tech 2024.', 
+                    image: 'images/CARDS/stech lr.png',
+                    drive: '#' 
+                }
+            ],
+            photography: [
+                { 
+                    title: 'SORA', 
+                    description: 'Koleksi foto langit dengan berbagai mood dan waktu.', 
+                    image: 'images/CARDS/.png',
+                    drive: '#' 
+                },
+                { 
+                    title: 'PRAKTIK NIKAH', 
+                    description: 'Dokumentasi kegiatan praktik nikah.', 
+                    image: 'images/CARDS/.png',
+                    drive: '#' 
+                },
+
+            ],
+            videography: [
+                { 
+                    title: 'SHORT MOVIE', 
+                    description: 'Film pendek Pesona Cuan.', 
+                    image: 'images/CARDS-12.png',
+                    drive: '#' 
+                },
+                { 
+                    title: 'VLOG OSPEK', 
+                    description: 'Video dokumentasi kegiatan ospek.', 
+                    image: 'images/CARDS-13.png',
+                    drive: '#' 
+                },
+                { 
+                    title: 'TUGAS', 
+                    description: '.', 
+                    image: 'images/CARDS-14.png',
+                    drive: '#' 
+                },
+                { 
+                    title: 'PERKENALAN S3', 
+                    description: 'Video perkenalan Tugas S3.', 
+                    image: 'images/CARDS-15.png',
+                    drive: '#' 
+                },
+                { 
+                    title: 'Get to Know About Me', 
+                    description: 'Video perkenalan Tugas Mechanism.', 
+                    image: 'images/CARDS-16.png',
+                    drive: '#' 
+                },
+                { 
+                    title: 'RALW', 
+                    description: 'Video perkenalan Tugas Mechanism.', 
+                    image: 'images/CARDS-17.png',
+                    drive: '#' 
+                },
+                { 
+                    title: 'FLY HIGH S3', 
+                    description: 'Video Tugas S3.', 
+                    image: 'images/CARDS-18.png',
+                    drive: '#' 
+                },
+                { 
+                    title: 'KELOMPOK MECHANISM', 
+                    description: 'Video Perkenalan Kelompok Mechanism.', 
+                    image: 'images/CARDS-19.png',
+                    drive: '#' 
+                },
+                
+            ]
+        };
+    
+        // Load projects
+        function loadProjects(category) {
+            const projectsGrid = document.getElementById('projectsGrid');
+            const projects = projectsData[category];
+            
+            projectsGrid.innerHTML = '';
+            projects.forEach((project, index) => {
+                const projectCard = document.createElement('div');
+                projectCard.className = 'project-card';
+                
+                projectCard.innerHTML = `
+                    <div class="project-image" style="background-image: url('${project.image}'); background-size: cover; background-position: center;">
+                        <div class="project-info">
+                            <h3>${project.title}</h3>
+                            <p>${project.description}</p>
+                            <a href="${project.drive}" target="_blank">View Project</a>
+                        </div>
+                    </div>
+                `;
+                
+                projectCard.style.animationDelay = `${index * 0.1}s`;
+                projectsGrid.appendChild(projectCard);
+            });
+        }
+    
+        // Project modal function
+        function openProjectModal(project) {
+            const modal = document.getElementById('projectModal');
+            const modalContent = document.getElementById('modalContent');
+            
+            modalContent.innerHTML = `
+                <h2>${project.title}</h2>
+                <div style="margin: 1.5rem 0; text-align: center;">
+                    <img src="${project.image}" alt="${project.title}" style="max-width: 100%; border-radius: 10px;">
+                </div>
+                <p style="margin: 1rem 0; line-height: 1.6;">${project.description}</p>
+                <div style="text-align: center; margin-top: 2rem;">
+                    <button class="category-btn" onclick="window.open('${project.drive}', '_blank')">
+                        View on Drive
+                    </button>
+                </div>
+            `;
+            
+            modal.style.display = 'flex';
+        }
+    
+        // Certificate modal function
+        function openModal(certId) {
+            const modal = document.getElementById('projectModal');
+            const modalContent = document.getElementById('modalContent');
+            
+            const certData = {
+                cert1: {
+                    title: 'Sertifikat Rohis Periode 1',
+                    description: 'Sertifikat sebagai Staf Divisi Syiar periode 2021-2022. Bertanggung jawab dalam pengelolaan media sosial, live report, dan dokumentasi kegiatan.',
+                    drive: '#'
+                },
+                cert2: {
+                    title: 'Sertifikat Rohis Periode 2', 
+                    description: 'Sertifikat sebagai Ketua Divisi Syiar periode 2022-2023. Memimpin tim dalam pengelolaan konten dan koordinasi kegiatan syiar.',
+                    drive: '#'
+                },
+                cert3: {
+                    title: 'Sertifikat S-Tech',
+                    description: 'Sertifikat kepanitiaan Soedirman Technophoria sebagai Staf PDD. Berkontribusi dalam design dan dokumentasi event teknologi.',
+                    drive: '#'
+                },
+                cert4: {
+                    title: 'Sertifikat Musyang',
+                    description: 'Sertifikat kepanitiaan Musyawarah Anggota sebagai Staf PDD. Menangani dokumentasi dan live report kegiatan.',
+                    drive: '#'
+                }
+            };
+            
+            const cert = certData[certId];
+            modalContent.innerHTML = `
+                <h2>${cert.title}</h2>
+                <p style="margin: 1rem 0; line-height: 1.6;">${cert.description}</p>
+                <div style="text-align: center; margin-top: 2rem;">
+                    <button class="category-btn" onclick="window.open('${cert.drive}', '_blank')">
+                        View Certificate
+                    </button>
+                </div>
+            `;
+            
+            modal.style.display = 'flex';
+        }
+    
+        // Category buttons
+        document.querySelectorAll('.category-btn').forEach(btn => {
+            if (btn.dataset.category) {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    loadProjects(btn.dataset.category);
+                });
+            }
+        });
+    
+        // Load initial projects
+        loadProjects('design');
+    
+        // Close modal
+        document.querySelector('.close-modal').addEventListener('click', () => {
+            document.getElementById('projectModal').style.display = 'none';
+        });
+    
+        document.getElementById('projectModal').addEventListener('click', (e) => {
+            if (e.target.id === 'projectModal') {
+                document.getElementById('projectModal').style.display = 'none';
+            }
+        });
+    
+        // Music player
+        const musicBtn = document.getElementById('musicBtn');
+        const bgMusic = document.getElementById('bgMusic');
+        let isMusicPlaying = false;
+        
+        musicBtn.addEventListener('click', () => {
+            if (isMusicPlaying) {
+                bgMusic.pause();
+                musicBtn.textContent = '🎵';
+                musicBtn.style.animation = 'pulse 2s infinite';
+            } else {
+                bgMusic.play().catch(e => console.log("Autoplay prevented:", e));
+                musicBtn.textContent = '⏸️';
+                musicBtn.style.animation = 'none';
+            }
+            isMusicPlaying = !isMusicPlaying;
+        });
+
+        // Contact form
+        const contactForm = document.getElementById('contactForm');
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Thank you for your message! I will get back to you soon.');
+            contactForm.reset();
+        });
+    
+        // Parallax scrolling effect
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const rate = scrolled * -0.3;
+            
+            document.querySelector('.hero').style.transform = `translateY(${rate}px)`;
+        });
+    
+        // Particle effect
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.style.position = 'fixed';
+            particle.style.width = '4px';
+            particle.style.height = '4px';
+            particle.style.background = 'var(--light-blue)';
+            particle.style.borderRadius = '50%';
+            particle.style.pointerEvents = 'none';
+            particle.style.zIndex = '1';
+            particle.style.left = Math.random() * 100 + 'vw';
+            particle.style.top = '100vh';
+            particle.style.opacity = '0.7';
+            
+            document.body.appendChild(particle);
+            
+            const animation = particle.animate([
+                { transform: 'translateY(0px)', opacity: 0.7 },
+                { transform: 'translateY(-100vh)', opacity: 0 }
+            ], {
+                duration: Math.random() * 3000 + 2000,
+                easing: 'linear'
+            });
+            
+            animation.onfinish = () => particle.remove();
+        }
+    
+        // Create particles periodically
+        setInterval(createParticle, 300);
+    
+        // Typing effect
+        const heroTitle = document.querySelector('.hero h1');
+        const originalText = heroTitle.textContent;
+        heroTitle.textContent = '';
+        
+        let i = 0;
+        function typeWriter() {
+            if (i < originalText.length) {
+                heroTitle.textContent += originalText.charAt(i);
+                i++;
+                setTimeout(typeWriter, 100);
+            }
+        }
+        
+        setTimeout(typeWriter, 1000);
+    
+        // Scroll indicator
+        const scrollIndicator = document.createElement('div');
+        scrollIndicator.innerHTML = '↓';
+        scrollIndicator.style.cssText = `
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 2rem;
+            color: var(--light-blue);
+            animation: bounce 2s infinite;
+            cursor: pointer;
+            z-index: 100;
+            transition: opacity 0.3s ease;
+        `;
+
+        // Add bounce animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes bounce {
+                0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+                40% { transform: translateX(-50%) translateY(-10px); }
+                60% { transform: translateX(-50%) translateY(-5px); }
+            }
+        `;
+        document.head.appendChild(style);
+        document.body.appendChild(scrollIndicator);
+
+        scrollIndicator.addEventListener('click', () => {
+            document.getElementById('about').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        // Hide scroll indicator when not on banner
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > window.innerHeight * 0.5) {
+                scrollIndicator.style.opacity = '0';
+            } else {
+                scrollIndicator.style.opacity = '1';
+            }
+        });
+
+        // Konami code easter egg
+        let konamiCode = [];
+        const konamiSequence = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'KeyB', 'KeyA'];
+        
+        document.addEventListener('keydown', (e) => {
+            konamiCode.push(e.code);
+            if (konamiCode.length > konamiSequence.length) {
+                konamiCode.shift();
+            }
+            
+            if (konamiCode.join(',') === konamiSequence.join(',')) {
+                // Easter egg activated!
+                document.body.style.filter = 'hue-rotate(180deg)';
+                setTimeout(() => {
+                    document.body.style.filter = 'none';
+                }, 3000);
+                
+                // Show secret message
+                const secretMsg = document.createElement('div');
+                secretMsg.textContent = '🎮 CHEAT CODE ACTIVATED! 🎮';
+                secretMsg.style.position = 'fixed';
+                secretMsg.style.top = '50%';
+                secretMsg.style.left = '50%';
+                secretMsg.style.transform = 'translate(-50%, -50%)';
+                secretMsg.style.background = 'var(--dark-blue)';
+                secretMsg.style.color = 'var(--light-blue)';
+                secretMsg.style.padding = '1rem 2rem';
+                secretMsg.style.borderRadius = '10px';
+                secretMsg.style.fontFamily = 'var(--pixel-font)';
+                secretMsg.style.fontSize = '1rem';
+                secretMsg.style.zIndex = '9999';
+                secretMsg.style.animation = 'fadeInUp 0.5s ease-out';
+                
+                document.body.appendChild(secretMsg);
+                
+                setTimeout(() => {
+                    secretMsg.remove();
+                }, 3000);
+                
+                konamiCode = [];
+            }
+        });
+// Tambahan script untuk animasi Maaxolotl
+document.addEventListener('DOMContentLoaded', function() {
+            // Buat bubble animasi
+            function createBubbles() {
+                const maaxolotlSection = document.getElementById('maaxolotl');
+                
+                for (let i = 0; i < 15; i++) {
+                    const bubble = document.createElement('div');
+                    bubble.classList.add('bubble');
+                    
+                    // Random size
+                    const size = Math.random() * 80 + 20;
+                    bubble.style.width = `${size}px`;
+                    bubble.style.height = `${size}px`;
+                    
+                    // Random position
+                    bubble.style.left = `${Math.random() * 100}%`;
+                    bubble.style.bottom = `-${size}px`;
+                    
+                    // Random animation duration
+                    const duration = Math.random() * 15 + 10;
+                    bubble.style.animationDuration = `${duration}s`;
+                    
+                    // Random animation delay
+                    bubble.style.animationDelay = `${Math.random() * 5}s`;
+                    
+                    maaxolotlSection.appendChild(bubble);
+                }
+            }
+            
+            createBubbles();
+            
+            const draggable = document.getElementById('draggable-maaxolotl');
+
+let isDragging = false;
+let offsetX = 0;
+let offsetY = 0;
+let longPressTimer = null;
+
+// --- Desktop ---
+draggable.addEventListener('mousedown', (e) => {
+    e.preventDefault();
+    longPressTimer = setTimeout(() => {
+        startDrag(e.clientX, e.clientY);
+    }, 500);
+});
+
+document.addEventListener('mouseup', () => {
+    clearTimeout(longPressTimer);
+    stopDrag();
+});
+
+document.addEventListener('mousemove', (e) => {
+    if (isDragging) {
+        moveDrag(e.clientX, e.clientY);
+    }
+});
+
+// --- Mobile / Touch ---
+draggable.addEventListener('touchstart', (e) => {
+    const touch = e.touches[0];
+    longPressTimer = setTimeout(() => {
+        startDrag(touch.clientX, touch.clientY);
+    }, 500);
+});
+
+document.addEventListener('touchend', () => {
+    clearTimeout(longPressTimer);
+    stopDrag();
+});
+
+document.addEventListener('touchmove', (e) => {
+    if (isDragging) {
+        const touch = e.touches[0];
+        moveDrag(touch.clientX, touch.clientY);
+    }
+});
+
+// --- Drag Logic ---
+function startDrag(x, y) {
+    isDragging = true;
+    draggable.classList.add('dragging');
+
+    const rect = draggable.getBoundingClientRect();
+    offsetX = x - rect.left;
+    offsetY = y - rect.top;
+}
+
+function moveDrag(x, y) {
+    draggable.style.left = `${x - offsetX}px`;
+    draggable.style.top = `${y - offsetY}px`;
+    draggable.style.bottom = 'auto';
+}
+
+function stopDrag() {
+    if (isDragging) {
+        isDragging = false;
+        draggable.classList.remove('dragging');
+    }
+}
+
+            
+            // Animasi saat section terlihat
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        
+                        // Jika ini section maaxolotl, aktifkan animasi teks
+                        if (entry.target.id === 'maaxolotl') {
+                            const typingElements = document.querySelectorAll('.typing-animation');
+                            typingElements.forEach((el, index) => {
+                                // Reset animation
+                                el.style.animation = 'none';
+                                setTimeout(() => {
+                                    el.style.animation = `typing 3s steps(40, end) ${index * 0.5}s forwards`;
+                                }, 50);
+                            });
+                        }
+                    }
+                });
+            }, observerOptions);
+            
+            document.querySelectorAll('.section').forEach(section => {
+                observer.observe(section);
+            });
+        });
+
+        
+
+
+    </script>
+</body>
+</html>
